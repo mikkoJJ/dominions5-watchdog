@@ -1,11 +1,16 @@
 import pytest
 
-from dominions_watchdog import turn_report 
+from dominions_watchdog import turn_report
 
 
 @pytest.fixture
 def test_log_string():
-    return "(Er) (Ul) Mav+ Sa- Ca- Ct+ Ni+ Ka+ (Rl)"
+    return "(Er) (Ul) Mav+ Sa- Ca- Ct+ Ni? Ka+ (Rl)"
+
+
+@pytest.fixture
+def test_log_string_with_connected_players():
+    return "(Er) (Ul) Mav+ *Sa- Ca- *Ct+ Ni? Ka+ (Rl)"
 
 
 @pytest.fixture
@@ -15,12 +20,24 @@ def malformed_log_string():
 
 def test_normal_log_string_parsed(test_log_string):
     report = turn_report.Dominions5TurnReport.from_log_string(test_log_string)
-    
+
     assert "Ermor" in report.ai_turns
     assert "Marverni" in report.turns_done
+    assert "C'tis" in report.turns_done
+    assert "Sauromatia" in report.turns_pending
+
+
+def test_report_with_connected_players_parsed(test_log_string_with_connected_players):
+    report = turn_report.Dominions5TurnReport.from_log_string(
+        test_log_string_with_connected_players
+    )
+
+    assert "Ermor" in report.ai_turns
+    assert "Marverni" in report.turns_done
+    assert "C'tis" in report.turns_done
     assert "Sauromatia" in report.turns_pending
 
 
 def test_malformed_log_string_raises(malformed_log_string):
     with pytest.raises(RuntimeError):
-        report = turn_report.Dominions5TurnReport.from_log_string(malformed_log_string)
+        turn_report.Dominions5TurnReport.from_log_string(malformed_log_string)

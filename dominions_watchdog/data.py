@@ -12,11 +12,12 @@ NATIONS = {
     "Ct": "C'tis",
     "Ni": "Niefelheim",
     "Ka": "Kailasa",
-    "Rl": "R'lyeh"
+    "Rl": "R'lyeh",
 }
 
+
 def get_nation_long_name(short_name: str) -> str:
-    """ For a given shortened nation name, get the full
+    """For a given shortened nation name, get the full
     name of that nation.
 
     Args:

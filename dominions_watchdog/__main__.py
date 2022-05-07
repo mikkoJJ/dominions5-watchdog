@@ -1,6 +1,4 @@
-"""main.py 
-
-Entrypoint for the module.
+""" Entrypoint for the module.
 """
 
-print("jee jee")
+print("no entrypoint implemented yet")
